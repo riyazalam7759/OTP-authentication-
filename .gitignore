@@ -52,6 +52,19 @@ temp/
 # User-generated uploaded files (avoid pushing private files)
 uploads/
 
+# App-specific sensitive config files (store secrets in .env instead)
+middleware/Email.config.js
+config/secrets.js
+config/credentials.js
+
+# Common secret/token files
+.envrc
+.npmrc
+secrets.json
+credentials.json
+token.json
+service-account*.json
+
 # OS / editor files
 .DS_Store
 Thumbs.db
