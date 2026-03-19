@@ -1,9 +1,28 @@
 # Dependencies
 node_modules/
 
-# Environment files
+# Environment files (often contain secrets like DB URL, JWT secret, SMTP password)
 .env
 .env.*
+!.env.example
+!.env.sample
+
+# Secret and private key files
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.jks
+
+# Local databases and dumps (can include real user data)
+*.sqlite
+*.sqlite3
+*.db
+*.sql
+*.dump
+*.bak
 
 # Logs
 logs/
@@ -15,6 +34,23 @@ yarn-error.log*
 # Build output
 dist/
 build/
+
+# Test output / reports
+coverage/
+.nyc_output/
+
+# Runtime and process temp files
+pids/
+*.pid
+*.pid.lock
+
+# Cache/temp folders
+.cache/
+tmp/
+temp/
+
+# User-generated uploaded files (avoid pushing private files)
+uploads/
 
 # OS / editor files
 .DS_Store
