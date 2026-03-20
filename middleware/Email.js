@@ -2,6 +2,8 @@
 import { transporter } from './Email.config.js';
 // NEW: Import reusable OTP template so email UI/content is managed in one place.
 import { buildOtpEmailTemplate } from './otpTemplate.js';
+// NEW: Import reusable Welcome email template.
+import { buildWelcomeEmailTemplate } from './welcomeTemplate.js';
 
 export const sendVerificationCode = async (email, verificationCode) => {
     try{
@@ -34,4 +36,33 @@ export const sendVerificationCode = async (email, verificationCode) => {
         throw new Error(`Email send failed: ${err?.message || "Unknown SMTP error"}`);
     }
 
+}
+export const WelcomeEmail = async (email, name) => {
+    try{
+        // NEW: Build welcome email content from reusable template.
+        const { subject, text, html } = buildWelcomeEmailTemplate({
+            appName: 'RiyazAuthApp',
+            userName: name,
+            loginUrl: '',
+            supportEmail: 'novaastror@gmail.com'
+        });
+
+        // NEW: Send welcome email using same transporter.
+        const response = await transporter.sendMail({
+            from: '"RiyazAuthApp" <novaastror@gmail.com>',
+            to: email,
+            subject,
+            text,
+            html
+        });
+
+        console.log('Welcome email accepted:', response.accepted);
+        console.log('Welcome email rejected:', response.rejected);
+        console.log('Welcome email messageId:', response.messageId);
+        console.log('Welcome email SMTP response:', response.response);
+    }
+    catch(err){
+        console.log('Error sending welcome email:', err);
+        throw new Error(`Welcome email send failed: ${err?.message || 'Unknown SMTP error'}`);
+    }
 }

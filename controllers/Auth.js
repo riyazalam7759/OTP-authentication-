@@ -70,4 +70,25 @@ const register = async (req, res) => {
     }
 }
 
-export { register };
+const VerifyEmail = async (req, res) => {
+    try {
+        const { code } = req.body;
+        const user = await UserModel.findOne({
+            verificationCode: code
+        })
+        if (!user) {
+            return res.status(400).json({ success: false, message: "Invalid or Expired code" });
+        }
+        user.isVerified = true;
+        user.verificationCode = undefined;
+        await user.save();
+        return res.status(200).json({ success: true, message: "Email verified successfully" });
+
+    }
+    catch (err) {
+        console.log("Email verification error:", err);
+        return res.status(500).json({ success: false, message: err?.message || "internal Server Error" });
+    }
+}
+
+export { register, VerifyEmail };
